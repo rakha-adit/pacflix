@@ -104,3 +104,44 @@ class User:
             print("New Plan tidak tersedia")
         elif(self.current_plan is None):
             print("Silakan berlangganan terlebih dahulu")
+
+
+    def subs_plan(self, new_plan, kode_referral):
+        """
+        Fungsi untuk melakukan subscribe plan bagi user baru
+
+        input:
+            - new_plan (str)
+            - kode_referral (str)
+        """
+
+        list_code = [row[-1] for row in self.data_user.values()]
+
+        if self.current_plan is None:
+
+            if new_plan in self.list_plan:
+                # Do Subscribe
+                self.current_plan = new_plan
+                self.duration_plan = 1
+                self.kode_referral = f"{self.username}-123"
+
+                idx_new_plan = self.list_plan.index(new_plan)
+                # Menampilkan Harganya
+                if kode_referral in list_code:
+                    # Get discount
+                    total = self.list_benefit[-1][idx_new_plan] - (self.list_benefit[-1][idx_new_plan] * 0.04)
+                else:
+                    # Normal Price
+                    total = self.list_benefit[-1][idx_new_plan]
+                
+                print(f"Harga yang harus dibayarkan untuk subscribe {new_plan} adalah Rp. {total}")
+
+                # Add User to Data User
+                last_key = max(self.data_user.keys())
+                self.data_user[last_key + 1] = [self.username, self.current_plan, self.duration_plan, self.kode_referral]
+
+            else:
+                print("Plan tidak tersedia")
+        
+        else:
+            print("Anda sudah memiliki plan")
