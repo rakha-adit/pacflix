@@ -1,3 +1,5 @@
+from tabulate import tabulate
+
 class User:
     #Data User
     data_user = {
@@ -22,6 +24,11 @@ class User:
 
     
     def __init__(self, username):
+        """
+        Fungsi ini digunakan untuk menginisialisasi objek user
+
+        input: username(str)
+        """
         self.username = username
         self.current_plan = None
         self.duration_plan = None
@@ -33,3 +40,13 @@ class User:
                 self.duration_plan = value[2]
                 self.kode_referral = value[3]
                 break
+
+    def check_all_plan(self):
+        """
+        Fungsi ini digunakan untuk mencetak plan dan benefit
+
+        input: None
+        """
+        print("List Benefit and Plan from PacFlix")
+        print("")
+        print(tabulate(self.list_benefit, self.headers))
